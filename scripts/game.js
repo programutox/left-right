@@ -2,17 +2,24 @@ function getNewDirection() {
     return Math.random() >= 0.5 ? "left" : "right";
 }
 
-function handleKeyPressed(key, challenge_text, score_text) {
+function handleKeyPressed(key, directions, directions_texts, score_text) {
     onKeyPress(key, () => {
-        if (challenge_text.text != key) {
+        if (directions_texts[0].text != key) {
             play("lost");
             go("lost", score_text.value);
             return;
         }
         
+        directions.shift();
+        directions.push(getNewDirection());
+        
+        for (let i = 0; i < directions.length; i++) {
+            directions_texts[i].text = directions[i];
+        }
+        
         score_text.value += 1;
         score_text.text = "Score: " + formatNumber(score_text.value);
-        challenge_text.text = getNewDirection();
+        
         play("right");
     });
 }
@@ -20,8 +27,18 @@ function handleKeyPressed(key, challenge_text, score_text) {
 function game_scene() {
     scene("game", () => {
         const score = createText("Score: 00", { size: 24 }, 100, 24, true);
-        const challenge_text = createText(getNewDirection(), { size: 48 }, width() / 2, height() / 2);
 
+        const directions_length = 10;
+        let directions = [];
+        for (let i = 0; i < directions_length; i++) {
+            directions.push(getNewDirection());
+        }
+        
+        let directions_texts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
+        for (let i = 1; i < directions_length; i++) {
+            directions_texts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32));
+        }
+        
         const bar_size = vec2(100, 15);
         const progression_speed = 10;
 
@@ -31,8 +48,8 @@ function game_scene() {
             color(85, 85, 85),
         ]);
         
-        handleKeyPressed("left", challenge_text, score);
-        handleKeyPressed("right", challenge_text, score);
+        handleKeyPressed("left", directions, directions_texts, score);
+        handleKeyPressed("right", directions, directions_texts, score);
 
         const time_elapsed = time();
         let time_bar_size = 0;
