@@ -8,10 +8,10 @@ function main() {
     loadSound("right", "../assets/sfx/right.wav");
     loadSound("lost", "../assets/sfx/lost.wav");
     
-    menu_scene();
-    counter_scene();
-    game_scene();
-    lost_scene();
+    create_menu_scene();
+    scene("counter", counter_scene);
+    scene("game", game_scene);
+    scene("lost", (score) => lost_scene(score));
 }
 
 main()

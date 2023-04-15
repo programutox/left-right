@@ -21,12 +21,12 @@ function create_menu(fileLines) {
     });
 }
 
-function menu_scene() {
+function create_menu_scene() {
     readLinesFromFile("assets/data/proverbs.txt")
         .then(
             (fileLines) => create_menu(fileLines)
         )
         .catch(
-            (error) => { console.error("Error retrieving file: ", error); }
+            (error) => console.error("Error retrieving file: ", error)
         );
 }
