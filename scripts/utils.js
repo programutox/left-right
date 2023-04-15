@@ -1,4 +1,4 @@
-function createText(label, props, x, y, with_value=false) {
+function createText(label, props, x, y, with_value=false, color=null) {
     let text_result = [
         text(label, props),
         pos(x, y),
@@ -8,6 +8,10 @@ function createText(label, props, x, y, with_value=false) {
     
     if (with_value) {
         text_result.push({ value: 0 })
+    }
+
+    if (color !== null) {
+        text_result.push(color);
     }
     
     return add(text_result);

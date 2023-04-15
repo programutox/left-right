@@ -35,9 +35,10 @@ function game_scene() {
         directions.push(getNewDirection());
     }
     
+    const gray = color(128, 128, 128);
     let directions_texts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
     for (let i = 1; i < directions_length; i++) {
-        directions_texts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32));
+        directions_texts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
     }
     
     const bar_size = vec2(100, 15);
