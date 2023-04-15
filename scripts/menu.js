@@ -17,7 +17,7 @@ function create_menu(fileLines) {
         
     wait(2, () => {
         createText("Press space to start", { size: 24 }, width() / 2, height() * 0.75);
-        onKeyPress("space", () => go("game"));
+        onKeyPress("space", () => go("counter"));
     });
 }
 

@@ -9,6 +9,7 @@ function main() {
     loadSound("lost", "../assets/sfx/lost.wav");
     
     menu_scene();
+    counter_scene();
     game_scene();
     lost_scene();
 }
