@@ -2,10 +2,10 @@ function getNewDirection() {
     return Math.random() >= 0.5 ? "left" : "right";
 }
 
-function updateGame(key, directions, directions_texts, score_text) {
-    if (directions_texts[0].text != key) {
+function updateGame(key, directions, directionsTexts, scoreText) {
+    if (directionsTexts[0].text != key) {
         play("lost");
-        go("lost", score_text.value);
+        go("lost", scoreText.value);
         return;
     }
     
@@ -13,51 +13,51 @@ function updateGame(key, directions, directions_texts, score_text) {
     directions.push(getNewDirection());
     
     for (let i = 0; i < directions.length; i++) {
-        directions_texts[i].text = directions[i];
+        directionsTexts[i].text = directions[i];
     }
     
-    score_text.value += 1;
-    score_text.text = "Score: " + formatNumber(score_text.value);
+    scoreText.value += 1;
+    scoreText.text = "Score: " + formatNumber(scoreText.value);
     
     play("right");
 }
 
-function handleKeyPress(key, directions, directions_texts, score_text) {
-    onKeyPress(key, () => updateGame(key, directions, directions_texts, score_text));
+function handleKeyPress(key, directions, directionsTexts, scoreText) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText));
 }
 
-function game_scene() {
+function gameScene() {
     const score = createText("Score: 00", { size: 24 }, 100, 24, true);
 
-    const directions_length = 10;
+    const directionsLength = 10;
     let directions = [];
-    for (let i = 0; i < directions_length; i++) {
+    for (let i = 0; i < directionsLength; i++) {
         directions.push(getNewDirection());
     }
     
     const gray = color(128, 128, 128);
-    let directions_texts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
-    for (let i = 1; i < directions_length; i++) {
-        directions_texts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
+    let directionsTexts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
+    for (let i = 1; i < directionsLength; i++) {
+        directionsTexts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
     }
     
-    const bar_size = vec2(100, 15);
-    const progression_speed = 10;
+    const barSize = vec2(100, 15);
+    const progressionSpeed = 10;
 
     add([
-        pos((width() - bar_size.x) / 2, height() - bar_size.y),
-        rect(bar_size.x, bar_size.y),
+        pos((width() - barSize.x) / 2, height() - barSize.y),
+        rect(barSize.x, barSize.y),
         color(85, 85, 85),
     ]);
     
-    handleKeyPress("left", directions, directions_texts, score);
-    handleKeyPress("right", directions, directions_texts, score);
+    handleKeyPress("left", directions, directionsTexts, score);
+    handleKeyPress("right", directions, directionsTexts, score);
 
-    let time_bar_size = 0;
+    let timeBarSize = 0;
 
     onUpdate(() => {
-        time_bar_size += progression_speed * dt();
-        if (time_bar_size > bar_size.x) {
+        timeBarSize += progressionSpeed * dt();
+        if (timeBarSize > barSize.x) {
             play("lost");
             go("lost", score.value);
         }
@@ -65,9 +65,9 @@ function game_scene() {
 
     onDraw(() => {
         drawRect({
-            width: time_bar_size,
-            height: bar_size.y,
-            pos: vec2((width() - bar_size.x) / 2, height() - bar_size.y),
+            width: timeBarSize,
+            height: barSize.y,
+            pos: vec2((width() - barSize.x) / 2, height() - barSize.y),
             color: YELLOW,
         })
     });

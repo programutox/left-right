@@ -9,7 +9,7 @@ async function readLinesFromFile(filePath) {
     return lines;
 }
 
-function create_menu(fileLines) {
+function createMenu(fileLines) {
     const randomIndex = Math.floor(Math.random() * fileLines.length);
     const randomLine = fileLines[randomIndex];
         
@@ -21,10 +21,10 @@ function create_menu(fileLines) {
     });
 }
 
-function create_menu_scene() {
+function createMenuScene() {
     readLinesFromFile("assets/data/proverbs.txt")
         .then(
-            (fileLines) => create_menu(fileLines)
+            (fileLines) => createMenu(fileLines)
         )
         .catch(
             (error) => console.error("Error retrieving file: ", error)

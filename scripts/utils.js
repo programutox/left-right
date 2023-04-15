@@ -1,20 +1,20 @@
-function createText(label, props, x, y, with_value=false, color=null) {
-    let text_result = [
+function createText(label, props, x, y, withValue=false, color=null) {
+    let textResult = [
         text(label, props),
         pos(x, y),
         // origin function is now called anchor
         anchor("center"),
     ];
     
-    if (with_value) {
-        text_result.push({ value: 0 })
+    if (withValue) {
+        textResult.push({ value: 0 })
     }
 
     if (color !== null) {
-        text_result.push(color);
+        textResult.push(color);
     }
     
-    return add(text_result);
+    return add(textResult);
 }
 
 // Formats number to 2 digits
