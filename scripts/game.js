@@ -1,5 +1,5 @@
 function getNewDirection() {
-    return Math.random() >= 0.5 ? "left" : "right";
+    return getRandomBoolean() ? "left" : "right";
 }
 
 function updateGame(key, directions, directionsTexts, scoreText) {
@@ -12,12 +12,12 @@ function updateGame(key, directions, directionsTexts, scoreText) {
     directions.shift();
     directions.push(getNewDirection());
     
-    for (let i = 0; i < directions.length; i++) {
+    for (let i = 0; i < directions.length; ++i) {
         directionsTexts[i].text = directions[i];
     }
     
     scoreText.value += 1;
-    scoreText.text = "Score: " + formatNumber(scoreText.value);
+    scoreText.text = `Score: ${formatNumber(scoreText.value)}`
     
     play("right");
 }
@@ -31,13 +31,13 @@ function gameScene() {
 
     const directionsLength = 10;
     let directions = [];
-    for (let i = 0; i < directionsLength; i++) {
+    for (let i = 0; i < directionsLength; ++i) {
         directions.push(getNewDirection());
     }
     
     const gray = color(128, 128, 128);
     let directionsTexts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
-    for (let i = 1; i < directionsLength; i++) {
+    for (let i = 1; i < directionsLength; ++i) {
         directionsTexts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
     }
     

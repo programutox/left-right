@@ -21,3 +21,13 @@ function createText(label, props, x, y, withValue=false, color=null) {
 function formatNumber(number) {
     return number.toString().padStart(2, '0');
 }
+
+function getRandomBoolean() {
+    return Math.random() < 0.5;
+}
+
+function executeIfTrue(func) {
+    if (getRandomBoolean()) {
+        func();
+    }
+}
