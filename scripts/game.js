@@ -19,7 +19,7 @@ function updateGame(key, directions, directionsTexts, scoreText) {
     scoreText.value += 1;
     scoreText.text = `Score: ${formatNumber(scoreText.value)}`
     
-    play("right");
+    play("next");
 }
 
 function handleKeyPress(key, directions, directionsTexts, scoreText) {

@@ -7,12 +7,8 @@ function counterScene() {
     // This variable is used to track time and make changes when necessary
     let changes = 0;
 
-    let texts = ["2", "1"];
-    executeIfTrue(() => texts.push("Does it begin ?"));
-    executeIfTrue(() => texts = [...texts, "Left", "Right"]);
-    executeIfTrue(() => texts.push("Ready?"));
-
-    texts.push("Go!");
+    const texts = ["2", "1", "Go!"];
+    play("counter");
     
     onUpdate(() => {
         const diff = time() - elapsed;
@@ -23,6 +19,7 @@ function counterScene() {
         
         for (let i = 0; i < texts.length; ++i) {
             if (changes == i && between((i + 1) * timeStep, diff, (i + 2) * timeStep)) {
+                play(i < texts.length - 1 ? "counter" : "go");
                 counterText.text = texts[i];
                 ++changes;
             }
