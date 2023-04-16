@@ -13,7 +13,14 @@ function createMenu(fileLines) {
     const randomIndex = Math.floor(Math.random() * fileLines.length);
     const randomLine = fileLines[randomIndex];
         
-    createText(randomLine, { size: 30 }, width() / 2, height() / 4);
+    createText(randomLine, { size: 30, width: 500 }, width() / 2, height() / 4);
+        
+    add([
+        sprite("arrows"),
+        pos(center()),
+        scale(0.25),
+        anchor("center"),
+    ]);
         
     wait(2, () => {
         createText("Press space to start", { size: 24 }, width() / 2, height() * 0.75);

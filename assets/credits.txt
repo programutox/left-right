@@ -1,4 +1,8 @@
-Sound effects made with rfxGen.
+--- Images ---
+Arrows icon made by Freepik: https://www.flaticon.com/free-icons/transfer
+
+--- Sound effects ---
+Made with rfxGen.
 
 --- Musics ---
 Rainbow Rush by Yubatake: https://opengameart.org/content/rainbow-rush
