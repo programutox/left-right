@@ -9,10 +9,7 @@ function counterScene() {
 
     let texts = ["2", "1"];
     executeIfTrue(() => texts.push("Does it begin ?"));
-    executeIfTrue(() => {
-        texts.push("Left");
-        texts.push("Right");
-    });
+    executeIfTrue(() => texts = [...texts, "Left", "Right"]);
     executeIfTrue(() => texts.push("Ready?"));
 
     texts.push("Go!");

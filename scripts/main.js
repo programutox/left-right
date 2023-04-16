@@ -11,7 +11,7 @@ function main() {
     createMenuScene();
     scene("counter", counterScene);
     scene("game", gameScene);
-    scene("lost", (score) => lostScene(score));
+    scene("lost", lostScene);
 }
 
 main()

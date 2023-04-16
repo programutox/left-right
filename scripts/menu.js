@@ -13,7 +13,7 @@ function createMenu(fileLines) {
     const randomIndex = Math.floor(Math.random() * fileLines.length);
     const randomLine = fileLines[randomIndex];
         
-    createText(randomLine, { size: 30, width: 500 }, width() / 2, height() / 4);
+    createText(randomLine, { size: 30 }, width() / 2, height() / 4);
         
     wait(2, () => {
         createText("Press space to start", { size: 24 }, width() / 2, height() * 0.75);
@@ -23,10 +23,6 @@ function createMenu(fileLines) {
 
 function createMenuScene() {
     readLinesFromFile("assets/data/proverbs.txt")
-        .then(
-            (fileLines) => createMenu(fileLines)
-        )
-        .catch(
-            (error) => console.error("Error retrieving file: ", error)
-        );
+        .then(fileLines => createMenu(fileLines))
+        .catch(error => console.error("Error retrieving file: ", error));
 }
