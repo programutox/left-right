@@ -2,10 +2,14 @@ function getNewDirection() {
     return getRandomBoolean() ? "left" : "right";
 }
 
-function updateGame(key, directions, directionsTexts, scoreText) {
-    if (directionsTexts[0].text != key) {
+function isCorrectDirectionPressed(direction, directionsTexts) {
+    return isKeyPressed(direction) && directionsTexts[0].text === direction;
+}
+
+function updateGame(key, directions, directionsTexts, scoreText, hitPerSeconds) {
+    if (directionsTexts[0].text !== key) {
         play("lost");
-        go("lost", scoreText.value);
+        go("lost", scoreText.value, average(hitPerSeconds));
         return;
     }
     
@@ -15,15 +19,22 @@ function updateGame(key, directions, directionsTexts, scoreText) {
     for (let i = 0; i < directions.length; ++i) {
         directionsTexts[i].text = directions[i];
     }
-    
+
     scoreText.value += 1;
     scoreText.text = `Score: ${formatNumber(scoreText.value)}`
     
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, scoreText) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText));
+function handleKeyPress(key, directions, directionsTexts, scoreText, hitPerSeconds) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText, hitPerSeconds));
+}
+
+function average(values) {
+    if (values.length < 1) {
+        return 0.0;
+    }
+    return values.reduce((total, current) => total + current) / values.length;
 }
 
 function gameScene() {
@@ -50,16 +61,30 @@ function gameScene() {
         color(85, 85, 85),
     ]);
     
-    handleKeyPress("left", directions, directionsTexts, score);
-    handleKeyPress("right", directions, directionsTexts, score);
+    let hitPerSeconds = [];
+    let hits = 0;
+    let elapsed = time();
 
     let timeBarSize = 0;
 
+    handleKeyPress("left", directions, directionsTexts, score, hitPerSeconds);
+    handleKeyPress("right", directions, directionsTexts, score, hitPerSeconds);
+
     onUpdate(() => {
+        if (isCorrectDirectionPressed("left", directionsTexts) || isCorrectDirectionPressed("right", directionsTexts)) {
+            ++hits;
+        }
+
+        if (time() - elapsed > 1.0) {
+            hitPerSeconds.push(hits);
+            hits = 0;
+            elapsed = time();
+        }
+
         timeBarSize += progressionSpeed * dt();
         if (timeBarSize > barSize.x) {
             play("lost");
-            go("lost", score.value);
+            go("lost", score.value, average(hitPerSeconds));
         }
     });
 
