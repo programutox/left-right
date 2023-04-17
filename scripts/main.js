@@ -14,6 +14,10 @@ function main() {
     });
     
     loadSpriteUsingTag("arrows");
+    loadSpriteUsingTag("red_guy1");
+    loadSpriteUsingTag("red_guy2");
+    loadSpriteUsingTag("blue_guy1");
+    loadSpriteUsingTag("blue_guy2");
     
     loadSoundUsingTag("next");
     loadSoundUsingTag("lost");

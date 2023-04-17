@@ -64,6 +64,16 @@ function gameScene() {
     });
 
     onDraw(() => {
+        drawSprite({
+            sprite: isKeyPressed("left") ? "red_guy2" : "red_guy1",
+            pos: vec2(25, height() * 0.75),
+        });
+        
+        drawSprite({
+            sprite: isKeyPressed("right") ? "blue_guy2" : "blue_guy1",
+            pos: vec2(width() - 25 - 128, height() * 0.75, height() * 0.75),
+        });
+
         drawRect({
             width: timeBarSize,
             height: barSize.y,
