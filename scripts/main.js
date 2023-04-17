@@ -1,9 +1,9 @@
 function loadSpriteUsingTag(tag) {
-    loadSprite(tag, `../assets/img/${tag}.png`);
+    loadSprite(tag, `./assets/img/${tag}.png`);
 }
 
 function loadSoundUsingTag(tag) {
-    loadSound(tag, `../assets/sfx/${tag}.wav`);
+    loadSound(tag, `./assets/sfx/${tag}.wav`);
 }
 
 function main() {
@@ -14,10 +14,10 @@ function main() {
     });
     
     loadSpriteUsingTag("arrows");
-    loadSpriteUsingTag("red_guy1");
-    loadSpriteUsingTag("red_guy2");
-    loadSpriteUsingTag("blue_guy1");
-    loadSpriteUsingTag("blue_guy2");
+    loadSpriteUsingTag("red_idle");
+    loadSpriteUsingTag("red_press");
+    loadSpriteUsingTag("blue_idle");
+    loadSpriteUsingTag("blue_press");
     
     loadSoundUsingTag("next");
     loadSoundUsingTag("lost");
