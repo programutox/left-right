@@ -65,12 +65,12 @@ function gameScene() {
 
     onDraw(() => {
         drawSprite({
-            sprite: isKeyPressed("left") ? "red_press" : "red_idle",
+            sprite: isKeyDown("left") ? "red_press" : "red_idle",
             pos: vec2(25, height() * 0.75),
         });
         
         drawSprite({
-            sprite: isKeyPressed("right") ? "blue_press" : "blue_idle",
+            sprite: isKeyDown("right") ? "blue_press" : "blue_idle",
             pos: vec2(width() - 25 - 128, height() * 0.75, height() * 0.75),
         });
 

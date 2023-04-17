@@ -1,7 +1,7 @@
 function counterScene() {
     const counterText = createText("3", { size: 32 }, width() / 2, height() / 2);
     const elapsed = time();
-    const timeStep = 0.5;
+    const timeStep = 0.4;
     const between = (left, a, right) => left < a && a < right;
 
     // This variable is used to track time and make changes when necessary
