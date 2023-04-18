@@ -6,10 +6,10 @@ function isCorrectDirectionPressed(direction, directionsTexts) {
     return isKeyPressed(direction) && directionsTexts[0].text === direction;
 }
 
-function updateGame(key, directions, directionsTexts, scoreText, hitPerSeconds) {
+function updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond) {
     if (directionsTexts[0].text !== key) {
         play("lost");
-        go("lost", scoreText.value, average(hitPerSeconds));
+        go("lost", scoreText.value, average(hitsEverySecond));
         return;
     }
     
@@ -26,8 +26,8 @@ function updateGame(key, directions, directionsTexts, scoreText, hitPerSeconds) 
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, scoreText, hitPerSeconds) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText, hitPerSeconds));
+function handleKeyPress(key, directions, directionsTexts, scoreText, hitsEverySecond) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond));
 }
 
 function average(values) {
@@ -52,23 +52,29 @@ function gameScene() {
         directionsTexts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
     }
     
-    const barSize = vec2(100, 15);
-    const progressionSpeed = 10;
+    const barSize = vec2(200, 15);
 
-    add([
+    const timeBarBg = add([
         pos((width() - barSize.x) / 2, height() - barSize.y),
         rect(barSize.x, barSize.y),
         color(85, 85, 85),
     ]);
+
+    const timeBar = add([
+        pos(timeBarBg.pos),
+        rect(0, timeBarBg.height),
+        color(YELLOW),
+    ]);
     
-    let hitPerSeconds = [];
+    let hitsEverySecond = [];
     let hits = 0;
     let elapsed = time();
 
-    let timeBarSize = 0;
+    let barTimer = time();
+    const timeLimit = 30.0;
 
-    handleKeyPress("left", directions, directionsTexts, score, hitPerSeconds);
-    handleKeyPress("right", directions, directionsTexts, score, hitPerSeconds);
+    handleKeyPress("left", directions, directionsTexts, score, hitsEverySecond);
+    handleKeyPress("right", directions, directionsTexts, score, hitsEverySecond);
 
     onUpdate(() => {
         if (isCorrectDirectionPressed("left", directionsTexts) || isCorrectDirectionPressed("right", directionsTexts)) {
@@ -76,34 +82,30 @@ function gameScene() {
         }
 
         if (time() - elapsed > 1.0) {
-            hitPerSeconds.push(hits);
+            hitsEverySecond.push(hits);
             hits = 0;
             elapsed = time();
         }
 
-        timeBarSize += progressionSpeed * dt();
-        if (timeBarSize > barSize.x) {
+        timeBar.width = (time() - barTimer) / timeLimit * timeBarBg.width;
+
+        if (timeBar.width > timeBarBg.width) {
             play("lost");
-            go("lost", score.value, average(hitPerSeconds));
+            go("lost", score.value, average(hitsEverySecond));
         }
     });
+
+    const sprite_offset = 25;
 
     onDraw(() => {
         drawSprite({
             sprite: isKeyDown("left") ? "red_press" : "red_idle",
-            pos: vec2(25, height() * 0.75),
+            pos: vec2(sprite_offset, height() * 0.75),
         });
         
         drawSprite({
             sprite: isKeyDown("right") ? "blue_press" : "blue_idle",
-            pos: vec2(width() - 25 - 128, height() * 0.75, height() * 0.75),
+            pos: vec2(width() - sprite_offset - 128, height() * 0.75),
         });
-
-        drawRect({
-            width: timeBarSize,
-            height: barSize.y,
-            pos: vec2((width() - barSize.x) / 2, height() - barSize.y),
-            color: YELLOW,
-        })
     });
 }
