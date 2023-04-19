@@ -1,3 +1,13 @@
+function addButton(tag, x, y) {
+    return add([
+        sprite(tag),
+        pos(x, y),
+        scale(0.5),
+        area(),
+        tag,
+    ]);
+}
+
 function getNewDirection() {
     return getRandomBoolean() ? "left" : "right";
 }
@@ -28,6 +38,7 @@ function updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond
 
 function handleKeyPress(key, directions, directionsTexts, scoreText, hitsEverySecond) {
     onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond));
+    onClick(key, () => updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond));
 }
 
 function average(values) {
@@ -65,6 +76,10 @@ function gameScene() {
         rect(0, timeBarBg.height),
         color(YELLOW),
     ]);
+
+    const button_offset = 64;
+    const leftButton = addButton("left", button_offset, height() - button_offset * 2);
+    const rightButton = addButton("right", width() - button_offset * 2, height() - button_offset * 2);
     
     let hitsEverySecond = [];
     let hits = 0;
@@ -77,7 +92,8 @@ function gameScene() {
     handleKeyPress("right", directions, directionsTexts, score, hitsEverySecond);
 
     onUpdate(() => {
-        if (isCorrectDirectionPressed("left", directionsTexts) || isCorrectDirectionPressed("right", directionsTexts)) {
+        if (isCorrectDirectionPressed("left", directionsTexts) || isCorrectDirectionPressed("right", directionsTexts)
+            || leftButton.isClicked() || rightButton.isClicked()) {
             ++hits;
         }
 
@@ -99,13 +115,13 @@ function gameScene() {
 
     onDraw(() => {
         drawSprite({
-            sprite: isKeyDown("left") ? "red_press" : "red_idle",
-            pos: vec2(sprite_offset, height() * 0.75),
+            sprite: isKeyDown("left") || leftButton.isClicked() ? "red_press" : "red_idle",
+            pos: vec2(sprite_offset, height() / 2),
         });
         
         drawSprite({
-            sprite: isKeyDown("right") ? "blue_press" : "blue_idle",
-            pos: vec2(width() - sprite_offset - 128, height() * 0.75),
+            sprite: isKeyDown("right") || rightButton.isClicked() ? "blue_press" : "blue_idle",
+            pos: vec2(width() - sprite_offset - 128, height() / 2),
         });
     });
 }

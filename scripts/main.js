@@ -14,6 +14,8 @@ function main() {
     });
     
     loadSpriteUsingTag("arrows");
+    loadSpriteUsingTag("left");
+    loadSpriteUsingTag("right");
     loadSpriteUsingTag("red_idle");
     loadSpriteUsingTag("red_press");
     loadSpriteUsingTag("blue_idle");
