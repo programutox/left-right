@@ -9,7 +9,7 @@ function addButton(tag, x, y) {
 }
 
 function getNewDirection() {
-    return getRandomBoolean() ? "left" : "right";
+    return chance(0.5) ? "left" : "right";
 }
 
 function isCorrectDirectionPressed(direction, directionsTexts) {
