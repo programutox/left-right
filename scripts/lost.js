@@ -6,7 +6,13 @@ function lostScene(score, hitsPerSeconds) {
         width() / 2, 
         height() / 2
     );
-    createText("Press space to restart", { size: 24 }, width() / 2, height() * 0.75);
+
+    const instructions = isTouchScreen() ? "Touch to restart" : "Press space to restart";
+    createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
     
-    onKeyPress("space", () => go("counter"));
+    if (isTouchScreen()) {
+        onClick(() => go("counter"));
+    } else {
+        onKeyPress("space", () => go("counter"));
+    }
 }

@@ -13,18 +13,24 @@ function createMenu(fileLines) {
     const randomIndex = Math.floor(Math.random() * fileLines.length);
     const randomLine = fileLines[randomIndex];
         
-    createText(randomLine, { size: 30, width: 500 }, width() / 2, height() / 4);
-        
+    createText(randomLine, { size: 30, width: width() - 100 }, width() / 2, height() / 4);
+    
     add([
         sprite("arrows"),
         pos(center()),
         scale(0.25),
         anchor("center"),
     ]);
-        
+
     wait(2, () => {
-        createText("Press space to start", { size: 24 }, width() / 2, height() * 0.75);
-        onKeyPress("space", () => go("counter"));
+        const instructions = isTouchScreen() ? "Touch to start" : "Press space to start";
+        createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
+
+        if (isTouchScreen()) {
+            onClick(() => go("counter"));
+        } else {
+            onKeyPress("space", () => go("counter"));
+        }
     });
 }
 

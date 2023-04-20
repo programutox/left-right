@@ -112,16 +112,17 @@ function gameScene() {
     });
 
     const sprite_offset = 25;
+    const sprite_size = 128;
 
     onDraw(() => {
         drawSprite({
             sprite: isKeyDown("left") || leftButton.isClicked() ? "red_press" : "red_idle",
-            pos: vec2(sprite_offset, height() / 2),
+            pos: vec2(sprite_offset, (height() - sprite_size) / 2),
         });
         
         drawSprite({
             sprite: isKeyDown("right") || rightButton.isClicked() ? "blue_press" : "blue_idle",
-            pos: vec2(width() - sprite_offset - 128, height() / 2),
+            pos: vec2(width() - sprite_offset - sprite_size, (height() - sprite_size) / 2),
         });
     });
 }

@@ -9,7 +9,7 @@ function loadSoundUsingTag(tag) {
 function main() {
     kaboom({
         width: 600,
-        height: 600,
+        height: 400,
         background: [17, 35, 38,],
     });
     
