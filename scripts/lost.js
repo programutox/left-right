@@ -7,12 +7,5 @@ function lostScene(score, hitsPerSeconds) {
         height() / 2
     );
 
-    const instructions = isTouchScreen() ? "Touch to restart" : "Press space to restart";
-    createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
-    
-    if (isTouchScreen()) {
-        onClick(() => go("counter"));
-    } else {
-        onKeyPress("space", () => go("counter"));
-    }
+    handleGameStart("Press space to restart", "Touch to restart")
 }

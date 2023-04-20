@@ -9,6 +9,17 @@ async function readLinesFromFile(filePath) {
     return lines;
 }
 
+function handleGameStart(desktopMessage, mobileMessage) {
+    const instructions = isTouchScreen() ? mobileMessage : desktopMessage;
+    createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
+
+    if (isTouchScreen()) {
+        onClick(() => go("counter"));
+    } else {
+        onKeyPress("space", () => go("counter"));
+    }
+}
+
 function createMenu(fileLines) {
     const randomIndex = Math.floor(Math.random() * fileLines.length);
     const randomLine = fileLines[randomIndex];
@@ -22,16 +33,7 @@ function createMenu(fileLines) {
         anchor("center"),
     ]);
 
-    wait(2, () => {
-        const instructions = isTouchScreen() ? "Touch to start" : "Press space to start";
-        createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
-
-        if (isTouchScreen()) {
-            onClick(() => go("counter"));
-        } else {
-            onKeyPress("space", () => go("counter"));
-        }
-    });
+    wait(2, () => handleGameStart("Press space to start", "Touch to start"));
 }
 
 function createMenuScene() {
