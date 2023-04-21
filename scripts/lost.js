@@ -1,7 +1,7 @@
-function lostScene(score, hitsPerSeconds) {
+function lostScene(score) {
     createText("You lost!", { size: 48 }, width() / 2, height() / 4);
     createText(
-        `You got ${formatNumber(score)} pts and ${hitsPerSeconds.toFixed(1)} HPS`, 
+        `You got ${formatNumber(score)} points`, 
         { size: 24 }, 
         width() / 2, 
         height() / 2

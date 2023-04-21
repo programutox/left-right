@@ -12,14 +12,10 @@ function getNewDirection() {
     return chance(0.5) ? "left" : "right";
 }
 
-function isCorrectDirectionPressed(direction, directionsTexts) {
-    return isKeyPressed(direction) && directionsTexts[0].text === direction;
-}
-
-function updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond) {
+function updateGame(key, directions, directionsTexts, scoreText) {
     if (directionsTexts[0].text !== key) {
         play("lost");
-        go("lost", scoreText.value, average(hitsEverySecond));
+        go("lost", scoreText.value);
         return;
     }
     
@@ -36,16 +32,9 @@ function updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, scoreText, hitsEverySecond) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond));
-    onClick(key, () => updateGame(key, directions, directionsTexts, scoreText, hitsEverySecond));
-}
-
-function average(values) {
-    if (values.length < 1) {
-        return 0.0;
-    }
-    return values.reduce((total, current) => total + current) / values.length;
+function handleKeyPress(key, directions, directionsTexts, scoreText) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText));
+    onClick(key, () => updateGame(key, directions, directionsTexts, scoreText));
 }
 
 function gameScene() {
@@ -80,34 +69,19 @@ function gameScene() {
     const button_offset = 64;
     const leftButton = addButton("left", button_offset, height() - button_offset * 2);
     const rightButton = addButton("right", width() - button_offset * 2, height() - button_offset * 2);
-    
-    let hitsEverySecond = [];
-    let hits = 0;
-    let elapsed = time();
 
     let barTimer = time();
     const timeLimit = 30.0;
 
-    handleKeyPress("left", directions, directionsTexts, score, hitsEverySecond);
-    handleKeyPress("right", directions, directionsTexts, score, hitsEverySecond);
+    handleKeyPress("left", directions, directionsTexts, score);
+    handleKeyPress("right", directions, directionsTexts, score);
 
     onUpdate(() => {
-        if (isCorrectDirectionPressed("left", directionsTexts) || isCorrectDirectionPressed("right", directionsTexts)
-            || leftButton.isClicked() || rightButton.isClicked()) {
-            ++hits;
-        }
-
-        if (time() - elapsed > 1.0) {
-            hitsEverySecond.push(hits);
-            hits = 0;
-            elapsed = time();
-        }
-
         timeBar.width = (time() - barTimer) / timeLimit * timeBarBg.width;
 
         if (timeBar.width > timeBarBg.width) {
             play("lost");
-            go("lost", score.value, average(hitsEverySecond));
+            go("lost", score.value);
         }
     });
 
