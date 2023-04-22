@@ -95,12 +95,12 @@ function gameScene(current_highscore) {
 
     onDraw(() => {
         drawSprite({
-            sprite: isKeyDown("left") || leftButton.isClicked() ? "red_press" : "red_idle",
+            sprite: isKeyDown("left") || (leftButton.isHovering() && isMouseDown("left")) ? "red_press" : "red_idle",
             pos: vec2(sprite_offset, (height() - sprite_size) / 2),
         });
         
         drawSprite({
-            sprite: isKeyDown("right") || rightButton.isClicked() ? "blue_press" : "blue_idle",
+            sprite: isKeyDown("right") || (rightButton.isHovering() && isMouseDown("left")) ? "blue_press" : "blue_idle",
             pos: vec2(width() - sprite_offset - sprite_size, (height() - sprite_size) / 2),
         });
     });
