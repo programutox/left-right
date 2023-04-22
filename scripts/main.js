@@ -12,19 +12,12 @@ function main() {
         height: 400,
         background: [17, 35, 38,],
     });
-    
-    loadSpriteUsingTag("arrows");
-    loadSpriteUsingTag("left");
-    loadSpriteUsingTag("right");
-    loadSpriteUsingTag("red_idle");
-    loadSpriteUsingTag("red_press");
-    loadSpriteUsingTag("blue_idle");
-    loadSpriteUsingTag("blue_press");
-    
-    loadSoundUsingTag("next");
-    loadSoundUsingTag("lost");
-    loadSoundUsingTag("counter");
-    loadSoundUsingTag("go");
+
+    const spritesTags = ["arrows", "left", "right", "red_idle", "red_press", "blue_idle", "blue_press"]
+    spritesTags.forEach(spriteTag => loadSpriteUsingTag(spriteTag));
+
+    const soundsTags = ["next", "lost", "counter", "go"];
+    soundsTags.forEach(soundTag => loadSoundUsingTag(soundTag));
     
     createMenuScene();
     scene("counter", counterScene);
