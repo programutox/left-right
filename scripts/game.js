@@ -12,10 +12,9 @@ function getNewDirection() {
     return chance(0.5) ? "left" : "right";
 }
 
-function updateGame(key, directions, directionsTexts, score, highscore) {
+function updateGame(key, directions, directionsTexts, score, goToLostScene) {
     if (directionsTexts[0].text !== key) {
-        play("lost");
-        go("lost", score.value, highscore.value);
+        goToLostScene()
         return;
     }
     
@@ -32,15 +31,20 @@ function updateGame(key, directions, directionsTexts, score, highscore) {
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, score, highscore) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, score, highscore));
-    onClick(key, () => updateGame(key, directions, directionsTexts, score, highscore));
+function handleKeyPress(key, directions, directionsTexts, score, goToLostScene) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, score, goToLostScene));
+    onClick(key, () => updateGame(key, directions, directionsTexts, score, goToLostScene));
 }
 
 function gameScene(current_highscore) {
     const score = createText("Score: 00", { size: 24 }, 100, 24, true);
     const highscore = createText(`Highscore: ${formatNumber(current_highscore)}`, { size: 24 }, 128, 48, true);
     highscore.value = current_highscore;
+
+    const goToLostScene = () => {
+        play("lost");
+        go("lost", score.value, highscore.value);
+    };
 
     const directionsLength = 10;
     let directions = [];
@@ -75,15 +79,14 @@ function gameScene(current_highscore) {
     let barTimer = time();
     const timeLimit = 30.0;
 
-    handleKeyPress("left", directions, directionsTexts, score, highscore);
-    handleKeyPress("right", directions, directionsTexts, score, highscore);
+    handleKeyPress("left", directions, directionsTexts, score, goToLostScene);
+    handleKeyPress("right", directions, directionsTexts, score, goToLostScene);
 
     onUpdate(() => {
         timeBar.width = (time() - barTimer) / timeLimit * timeBarBg.width;
 
         if (timeBar.width > timeBarBg.width) {
-            play("lost");
-            go("lost", score.value, highscore.value);
+            goToLostScene();
         }
     });
 
