@@ -1,4 +1,4 @@
-function counterScene() {
+function counterScene(highscore) {
     const counterText = createText("3", { size: 32 }, width() / 2, height() / 2);
     const elapsed = time();
     const timeStep = 0.4;
@@ -27,7 +27,7 @@ function counterScene() {
         
         // go instruction will be executed once
         if (diff > (texts.length + 1) * timeStep) {
-            go("game");
+            go("game", highscore);
         }
     });
 }

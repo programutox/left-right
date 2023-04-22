@@ -12,10 +12,10 @@ function getNewDirection() {
     return chance(0.5) ? "left" : "right";
 }
 
-function updateGame(key, directions, directionsTexts, scoreText) {
+function updateGame(key, directions, directionsTexts, score, highscore) {
     if (directionsTexts[0].text !== key) {
         play("lost");
-        go("lost", scoreText.value);
+        go("lost", score.value, highscore.value);
         return;
     }
     
@@ -26,19 +26,21 @@ function updateGame(key, directions, directionsTexts, scoreText) {
         directionsTexts[i].text = directions[i];
     }
 
-    scoreText.value += 1;
-    scoreText.text = `Score: ${formatNumber(scoreText.value)}`
+    score.value += 1;
+    score.text = `Score: ${formatNumber(score.value)}`;
     
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, scoreText) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, scoreText));
-    onClick(key, () => updateGame(key, directions, directionsTexts, scoreText));
+function handleKeyPress(key, directions, directionsTexts, score, highscore) {
+    onKeyPress(key, () => updateGame(key, directions, directionsTexts, score, highscore));
+    onClick(key, () => updateGame(key, directions, directionsTexts, score, highscore));
 }
 
-function gameScene() {
+function gameScene(current_highscore) {
     const score = createText("Score: 00", { size: 24 }, 100, 24, true);
+    const highscore = createText(`Highscore: ${formatNumber(current_highscore)}`, { size: 24 }, 128, 48, true);
+    highscore.value = current_highscore;
 
     const directionsLength = 10;
     let directions = [];
@@ -73,15 +75,15 @@ function gameScene() {
     let barTimer = time();
     const timeLimit = 30.0;
 
-    handleKeyPress("left", directions, directionsTexts, score);
-    handleKeyPress("right", directions, directionsTexts, score);
+    handleKeyPress("left", directions, directionsTexts, score, highscore);
+    handleKeyPress("right", directions, directionsTexts, score, highscore);
 
     onUpdate(() => {
         timeBar.width = (time() - barTimer) / timeLimit * timeBarBg.width;
 
         if (timeBar.width > timeBarBg.width) {
             play("lost");
-            go("lost", score.value);
+            go("lost", score.value, highscore.value);
         }
     });
 

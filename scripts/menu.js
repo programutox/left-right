@@ -9,14 +9,14 @@ async function readLinesFromFile(filePath) {
     return lines;
 }
 
-function handleGameStart(desktopMessage, mobileMessage) {
+function handleGameStart(desktopMessage, mobileMessage, highscore) {
     const instructions = isTouchScreen() ? mobileMessage : desktopMessage;
     createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
 
     if (isTouchScreen()) {
-        onClick(() => go("counter"));
+        onClick(() => go("counter", highscore));
     } else {
-        onKeyPress("space", () => go("counter"));
+        onKeyPress("space", () => go("counter", highscore));
     }
 }
 
@@ -33,11 +33,11 @@ function createMenu(fileLines) {
         anchor("center"),
     ]);
 
-    wait(2, () => handleGameStart("Press space to start", "Touch to start"));
+    wait(2, () => handleGameStart("Press space to start", "Touch to start", 0));
 }
 
 function createMenuScene() {
     readLinesFromFile("assets/data/proverbs.txt")
         .then(fileLines => createMenu(fileLines))
-        .catch(error => console.error("Error retrieving file: ", error));
+        .catch(error => console.error(`Error retrieving file: ${error}`));
 }
