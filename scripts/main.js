@@ -14,10 +14,10 @@ function main() {
     });
 
     const spritesTags = ["arrows", "left", "right", "red_idle", "red_press", "blue_idle", "blue_press"]
-    spritesTags.forEach(spriteTag => loadSpriteUsingTag(spriteTag));
+    spritesTags.forEach(loadSpriteUsingTag);
 
     const soundsTags = ["next", "lost", "counter", "go"];
-    soundsTags.forEach(soundTag => loadSoundUsingTag(soundTag));
+    soundsTags.forEach(loadSoundUsingTag);
     
     createMenuScene();
     scene("counter", counterScene);
