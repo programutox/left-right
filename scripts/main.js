@@ -11,6 +11,7 @@ function main() {
         width: 600,
         height: 400,
         background: [17, 35, 38,],
+        debug: false,
     });
 
     const spritesTags = ["arrows", "left", "right", "red_idle", "red_press", "blue_idle", "blue_press", "platform"];
