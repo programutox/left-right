@@ -7,7 +7,7 @@ function createText(label, props, x, y, withValue=false, color=null) {
     ];
     
     if (withValue) {
-        textResult.push({ value: 0 })
+        textResult.push({ value: 0 });
     }
 
     if (color !== null) {
@@ -17,7 +17,7 @@ function createText(label, props, x, y, withValue=false, color=null) {
     return add(textResult);
 }
 
-// Formats number to 2 digits
+// Formats number to 3 digits
 function formatNumber(number) {
-    return number.toString().padStart(2, '0');
+    return number.toString().padStart(3, '0');
 }

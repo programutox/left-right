@@ -55,7 +55,7 @@ function handleKeyPress(key, directions, directionsRects, score, goToLostScene) 
 }
 
 function gameScene(current_highscore) {
-    const score = createText("Score: 00", { size: 24 }, 100, 24, true);
+    const score = createText("Score: 000", { size: 24 }, 100, 24, true);
     const highscore = createText(`Highscore: ${formatNumber(current_highscore)}`, { size: 24 }, 128, 48, true);
     highscore.value = current_highscore;
 
