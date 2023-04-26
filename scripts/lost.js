@@ -1,13 +1,13 @@
 function lostText(score, highscore) {
     if (score > highscore) {
-        return `You got ${formatNumber(score)} pts! You've beaten the highscore!`;
+        return `You got ${score} pts! You've beaten the highscore!`;
     }
 
     if (score == highscore) {
-        return `You got ${formatNumber(score)} pts! You've almost beaten the highscore!`
+        return `You got ${score} pts! You've almost beaten the highscore!`
     }
 
-    return `You got ${formatNumber(score)}/${formatNumber(highscore)}`;
+    return `You got ${score}/${highscore}. Try again!`;
 }
 
 function lostScene(score, highscore) {
