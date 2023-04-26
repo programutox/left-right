@@ -1,4 +1,4 @@
-OUTPUT = left_right.zip
+OUTPUT = left_right_web.zip
 
 default:
 	zip -r $(OUTPUT) assets scripts index.html
