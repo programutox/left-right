@@ -8,13 +8,31 @@ function addButton(tag, x, y) {
     ]);
 }
 
+function directionColor(direction) {
+    return direction === "left" ? RED : BLUE;
+}
+
+function addRectangle(x, y, direction, scaleX=1.0) {
+    return add([
+        pos(x, y),
+        sprite("platform"),
+        anchor("center"),
+        color(directionColor(direction)),
+        scale(scaleX, 1.0),
+    ]);
+}
+
 function getNewDirection() {
     return chance(0.5) ? "left" : "right";
 }
 
-function updateGame(key, directions, directionsTexts, score, goToLostScene) {
-    if (directionsTexts[0].text !== key) {
-        goToLostScene()
+function areColorsEqual(left, right) {
+    return left.r === right.r && left.g === right.g && left.b === right.b;
+}
+
+function updateGame(key, directions, directionsRects, score, goToLostScene) {
+    if (!areColorsEqual(directionsRects[0].color, directionColor(key))) {
+        goToLostScene();
         return;
     }
     
@@ -22,7 +40,7 @@ function updateGame(key, directions, directionsTexts, score, goToLostScene) {
     directions.push(getNewDirection());
     
     for (let i = 0; i < directions.length; ++i) {
-        directionsTexts[i].text = directions[i];
+        directionsRects[i].color = directionColor(directions[i]);
     }
 
     score.value += 1;
@@ -31,9 +49,9 @@ function updateGame(key, directions, directionsTexts, score, goToLostScene) {
     play("next");
 }
 
-function handleKeyPress(key, directions, directionsTexts, score, goToLostScene) {
-    onKeyPress(key, () => updateGame(key, directions, directionsTexts, score, goToLostScene));
-    onClick(key, () => updateGame(key, directions, directionsTexts, score, goToLostScene));
+function handleKeyPress(key, directions, directionsRects, score, goToLostScene) {
+    onKeyPress(key, () => updateGame(key, directions, directionsRects, score, goToLostScene));
+    onClick(key, () => updateGame(key, directions, directionsRects, score, goToLostScene));
 }
 
 function gameScene(current_highscore) {
@@ -46,29 +64,36 @@ function gameScene(current_highscore) {
         go("lost", score.value, highscore.value);
     };
 
+    add([
+        rect(50, height()),
+        pos((width() - 50) / 2, 0),
+        color(90, 140, 180),
+        outline(2, BLACK),
+    ]);
+
     const directionsLength = 10;
     let directions = [];
     for (let i = 0; i < directionsLength; ++i) {
         directions.push(getNewDirection());
     }
     
-    const gray = color(128, 128, 128);
-    let directionsTexts = [createText(directions[0], { size: 32 }, width() / 2, height() * 0.75)];
+    let directionsRects = [addRectangle(width() / 2, height() * 0.75, directions[0])];
     for (let i = 1; i < directionsLength; ++i) {
-        directionsTexts.push(createText(directions[i], { size: 16 }, width() / 2, height() * 0.75 - i * 32, false, gray));
+        directionsRects.push(addRectangle(width() / 2, height() * 0.75 - i * 32, directions[i], 0.5));
     }
     
     const barSize = vec2(200, 15);
 
     const timeBarBg = add([
-        pos((width() - barSize.x) / 2, height() - barSize.y),
+        pos((width() - barSize.x) / 2, height() - barSize.y - 2),
         rect(barSize.x, barSize.y),
         color(85, 85, 85),
+        outline(2, BLACK),
     ]);
 
     const timeBar = add([
-        pos(timeBarBg.pos),
-        rect(0, timeBarBg.height),
+        pos(timeBarBg.pos.x + 1, timeBarBg.pos.y + 1),
+        rect(0, timeBarBg.height - 2),
         color(YELLOW),
     ]);
 
@@ -79,13 +104,13 @@ function gameScene(current_highscore) {
     let barTimer = time();
     const timeLimit = 30.0;
 
-    handleKeyPress("left", directions, directionsTexts, score, goToLostScene);
-    handleKeyPress("right", directions, directionsTexts, score, goToLostScene);
+    handleKeyPress("left", directions, directionsRects, score, goToLostScene);
+    handleKeyPress("right", directions, directionsRects, score, goToLostScene);
 
     onUpdate(() => {
-        timeBar.width = (time() - barTimer) / timeLimit * timeBarBg.width;
+        timeBar.width = (time() - barTimer) / timeLimit * (timeBarBg.width - 2);
 
-        if (timeBar.width > timeBarBg.width) {
+        if (timeBar.width > timeBarBg.width - 2) {
             goToLostScene();
         }
     });

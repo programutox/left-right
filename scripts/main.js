@@ -13,7 +13,7 @@ function main() {
         background: [17, 35, 38,],
     });
 
-    const spritesTags = ["arrows", "left", "right", "red_idle", "red_press", "blue_idle", "blue_press"]
+    const spritesTags = ["arrows", "left", "right", "red_idle", "red_press", "blue_idle", "blue_press", "platform"];
     spritesTags.forEach(loadSpriteUsingTag);
 
     const soundsTags = ["next", "lost", "counter", "go"];
