@@ -10,10 +10,10 @@ async function readLinesFromFile(filePath) {
 }
 
 function handleGameStart(desktopMessage, mobileMessage, highscore) {
-    const instructions = isTouchScreen() ? mobileMessage : desktopMessage;
+    const instructions = isTouchscreen() ? mobileMessage : desktopMessage;
     createText(instructions, { size: 24 }, width() / 2, height() * 0.75);
 
-    if (isTouchScreen()) {
+    if (isTouchscreen()) {
         onClick(() => go("counter", highscore));
     } else {
         onKeyPress("space", () => go("counter", highscore));
